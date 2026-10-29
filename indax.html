@@ -1,0 +1,436 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#160b2d">
+  <title>Happy Birthday! 🎂</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      overflow-x: hidden;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: white;
+      background:
+        radial-gradient(circle at 15% 20%, #652d91 0, transparent 35%),
+        radial-gradient(circle at 85% 80%, #9b287b 0, transparent 35%),
+        linear-gradient(135deg, #100722, #241044, #160b2d);
+      padding: 20px;
+    }
+
+    #confetti {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.6;
+      background-image:
+        radial-gradient(2px 2px at 20% 30%, white 50%, transparent),
+        radial-gradient(2px 2px at 80% 20%, white 50%, transparent),
+        radial-gradient(2px 2px at 70% 70%, white 50%, transparent),
+        radial-gradient(2px 2px at 30% 80%, white 50%, transparent);
+      background-size: 180px 180px;
+      animation: twinkle 3s ease-in-out infinite alternate;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 540px;
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: clamp(24px, 6vw, 42px) clamp(18px, 5vw, 36px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.09);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 20px 70px rgba(0, 0, 0, 0.35);
+      animation: appear 1s ease-out both;
+    }
+
+    .top-label {
+      color: #ffd7f3;
+      letter-spacing: 4px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 18px 0 8px;
+      font-size: clamp(34px, 8vw, 55px);
+      line-height: 1.15;
+      font-weight: 800;
+      background: linear-gradient(90deg, #fff, #ffc1ec, #ffe59c);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .name {
+      color: #ffd18d;
+      font-size: clamp(27px, 6vw, 39px);
+      font-weight: 800;
+      overflow-wrap: anywhere;
+      text-shadow: 0 0 25px rgba(255, 209, 141, 0.25);
+    }
+
+    .cake {
+      font-size: clamp(75px, 18vw, 115px);
+      margin: 20px 0 10px;
+      display: inline-block;
+      filter: drop-shadow(0 10px 18px rgba(255, 160, 220, 0.25));
+      animation: float 2.5s ease-in-out infinite;
+    }
+
+    .message {
+      color: #f1e8ff;
+      font-size: 16px;
+      line-height: 1.8;
+      margin: 15px auto 24px;
+      max-width: 390px;
+    }
+
+    .wish {
+      display: none;
+      margin: 20px 0;
+      padding: 18px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffe4f7;
+      line-height: 1.8;
+      animation: appear 0.7s ease both;
+    }
+
+    .wish.show {
+      display: block;
+    }
+
+    button {
+      width: 100%;
+      max-width: 300px;
+      min-height: 52px;
+      padding: 14px 22px;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(100deg, #ff70bd, #ffb36b);
+      color: #35102e;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(255, 112, 189, 0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(255, 112, 189, 0.45);
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    .music-button {
+      margin-top: 12px;
+      color: white;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: none;
+    }
+
+    .footer {
+      color: #cdb9e9;
+      font-size: 12px;
+      margin-top: 25px;
+    }
+
+    .heart {
+      color: #ff80c6;
+      display: inline-block;
+      animation: heartbeat 1s infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(-12px) rotate(2deg); }
+    }
+
+    @keyframes twinkle {
+      from { opacity: 0.25; }
+      to { opacity: 0.8; }
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 400px) {
+      body { padding: 12px; }
+      .card { border-radius: 22px; }
+      .top-label { letter-spacing: 2px; }
+      .message { font-size: 14px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="stars"></div>
+  <canvas id="confetti" aria-hidden="true"></canvas>
+
+  <main class="card">
+    <div class="top-label">✨ A Special Day ✨</div>
+
+    <h1>Happy Birthday!</h1>
+    <div class="name" id="birthdayName">Your Name 🎉</div>
+
+    <div class="cake" aria-label="Birthday cake">🎂</div>
+
+    <p class="message">
+      Today is all about YOU! 🥳<br>
+      May your life be filled with happiness,
+      laughter, love, and beautiful memories.
+      May every dream you have come true! ✨
+    </p>
+
+    <button id="surpriseBtn" onclick="showSurprise()">
+      🎁 Open Your Surprise
+    </button>
+
+    <div class="wish" id="specialWish" aria-live="polite">
+      <h2>💖 A Little Wish For You 💖</h2>
+      <p>
+        May this new chapter bring you endless smiles,
+        wonderful adventures, success, and people who
+        make your heart happy. Keep shining and never
+        stop dreaming. You deserve an amazing year! 🌟
+      </p>
+      <p style="margin-top: 12px; font-size: 23px;">
+        🎈 🎉 🥳 🎁 💝
+      </p>
+    </div>
+
+    <button class="music-button" id="musicBtn" onclick="toggleMusic()">
+      🎵 Play Birthday Tune
+    </button>
+
+    <div class="footer">
+      Made with <span class="heart">♥</span> just for you
+    </div>
+  </main>
+
+  <script>
+    // ✏️ CHANGE THE NAME HERE
+    const birthdayPerson = "Your Name";
+
+    document.getElementById("birthdayName").textContent =
+      birthdayPerson + " 🎉";
+
+    // CONFETTI ANIMATION
+    const canvas = document.getElementById("confetti");
+    const ctx = canvas.getContext("2d");
+
+    let pieces = [];
+    let animationId;
+    let lastTime = 0;
+
+    const colors = [
+      "#ff70bd", "#ffd166", "#7afcff",
+      "#b8ff8c", "#c9a7ff", "#ffffff"
+    ];
+
+    function resizeCanvas() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      canvas.style.width = window.innerWidth + "px";
+      canvas.style.height = window.innerHeight + "px";
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    function addConfetti(count = 140) {
+      for (let i = 0; i < count; i++) {
+        pieces.push({
+          x: Math.random() * window.innerWidth,
+          y: -Math.random() * window.innerHeight,
+          w: Math.random() * 8 + 4,
+          h: Math.random() * 6 + 3,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          speed: Math.random() * 2.5 + 1.5,
+          drift: Math.random() * 2 - 1,
+          rotation: Math.random() * 360,
+          spin: Math.random() * 8 - 4
+        });
+      }
+
+      pieces = pieces.slice(-500);
+      startAnimation();
+    }
+
+    function startAnimation() {
+      if (!animationId) {
+        lastTime = 0;
+        animationId = requestAnimationFrame(animate);
+      }
+    }
+
+    function animate(time) {
+      // Limit animation work on slower mobile devices.
+      if (time - lastTime < 1000 / 40) {
+        animationId = requestAnimationFrame(animate);
+        return;
+      }
+
+      lastTime = time;
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+      pieces.forEach((p) => {
+        p.y += p.speed;
+        p.x += p.drift + Math.sin(p.y / 35) * 0.6;
+        p.rotation += p.spin;
+
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rotation * Math.PI / 180);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        ctx.restore();
+      });
+
+      pieces = pieces.filter(p => p.y < window.innerHeight + 30);
+
+      if (pieces.length > 0) {
+        animationId = requestAnimationFrame(animate);
+      } else {
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        animationId = null;
+      }
+    }
+
+    function showSurprise() {
+      const wish = document.getElementById("specialWish");
+
+      wish.classList.add("show");
+      document.getElementById("surpriseBtn").textContent =
+        "🎉 Surprise Opened!";
+
+      addConfetti(220);
+    }
+
+    // OPTIONAL BIRTHDAY TUNE — GENERATED IN THE BROWSER
+    let audioContext = null;
+    let musicTimer = null;
+    let noteIndex = 0;
+
+    const melody = [
+      [262, 0.25], [262, 0.25], [294, 0.5],
+      [262, 0.5], [349, 0.5], [330, 1],
+      [262, 0.25], [262, 0.25], [294, 0.5],
+      [262, 0.5], [392, 0.5], [349, 1]
+    ];
+
+    function playNote(freq, duration) {
+      if (!audioContext) return;
+
+      const oscillator = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+
+      oscillator.type = "sine";
+      oscillator.frequency.value = freq;
+      gain.gain.setValueAtTime(0.0001, audioContext.currentTime);
+      gain.gain.exponentialRampToValueAtTime(
+        0.12, audioContext.currentTime + 0.02
+      );
+      gain.gain.exponentialRampToValueAtTime(
+        0.0001, audioContext.currentTime + duration - 0.02
+      );
+
+      oscillator.connect(gain);
+      gain.connect(audioContext.destination);
+      oscillator.start();
+      oscillator.stop(audioContext.currentTime + duration);
+    }
+
+    async function toggleMusic() {
+      const button = document.getElementById("musicBtn");
+
+      if (musicTimer) {
+        clearInterval(musicTimer);
+        musicTimer = null;
+        button.textContent = "🎵 Play Birthday Tune";
+        return;
+      }
+
+      try {
+        const AudioCtx = window.AudioContext ||
+                         window.webkitAudioContext;
+
+        if (!AudioCtx) {
+          button.textContent = "Music is not supported";
+          return;
+        }
+
+        if (!audioContext) audioContext = new AudioCtx();
+        await audioContext.resume();
+
+        noteIndex = 0;
+
+        function nextNote() {
+          const [freq, duration] = melody[noteIndex];
+          playNote(freq, duration);
+          noteIndex = (noteIndex + 1) % melody.length;
+        }
+
+        nextNote();
+        musicTimer = setInterval(nextNote, 450);
+        button.textContent = "⏸ Stop Birthday Tune";
+      } catch (error) {
+        button.textContent = "Could not play tune";
+      }
+    }
+
+    // Start with a gentle burst of confetti.
+    addConfetti(100);
+  </script>
+</body>
+</html>
